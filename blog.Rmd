@@ -1,0 +1,15 @@
+---
+title: "Blog"
+description: |
+  A blog!
+listing: posts
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+

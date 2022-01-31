@@ -1,0 +1,20 @@
+---
+title: "Shaye Hallee"
+site: distill::distill_website
+# image: "tobi.jpg"
+links:
+  - label: Blog
+    url: "https://shayehallee.github.io/blog.html"
+  - label: Coursework
+    url: "https://shayehallee.github.io/coursework.html"
+  - label: LinkedIn
+    url: "https://linkedin.com/"
+  - label: GitHub
+    url: "https://github.com/shayehallee"
+  - label: Email
+    url: "mailto:swhallee@gmail.com"
+output:
+  postcards::jolla
+---
+
+Here's some text about me!
