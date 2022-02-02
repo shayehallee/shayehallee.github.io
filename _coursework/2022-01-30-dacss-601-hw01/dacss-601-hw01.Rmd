@@ -1,18 +1,12 @@
 ---
 title: "Shaye Hallee - DACSS 601 HW01"
-description: |
-  Post for HW01 for DACSS 601.
-categories:
-  - "DACSS 601"
-  - Coursework
-author:
-  - name: Shaye Hallee
-    
+description: "Post for HW01 for DACSS 601."
+author: "Shaye Hallee"
 date: 2022-01-30
 output: distill::distill_article
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
