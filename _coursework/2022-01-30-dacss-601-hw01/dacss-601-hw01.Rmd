@@ -9,9 +9,7 @@ author:
   - name: Shaye Hallee
     
 date: 2022-01-30
-output:
-  distill::distill_article:
-    self_contained: false
+output: distill::distill_article
 ---
 
 

@@ -6,7 +6,7 @@
       "description": "A blog!\n",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-01-30T20:55:17-05:00"
+      "last_modified": "2022-02-02T13:50:30-05:00"
     },
     {
       "path": "coursework.html",
@@ -14,14 +14,14 @@
       "description": "A new article created using the Distill format.\n",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2022-01-30T20:55:47-05:00"
+      "last_modified": "2022-02-02T13:50:30-05:00"
     },
     {
       "path": "index.html",
       "title": "Shaye Hallee",
       "author": [],
       "contents": "\r\n\r\n          \r\n          \r\n          Shaye's Blog\r\n          \r\n          \r\n          Home\r\n          Blog\r\n          Coursework\r\n          ☰\r\n          \r\n          \r\n      \r\n        \r\n          \r\n            Shaye Hallee\r\n          \r\n          \r\n            \r\n              Here’s some text about me!\r\n            \r\n            \r\n              Here’s some text about me!\r\n            \r\n          \r\n\r\n          \r\n            \r\n              \r\n                  \r\n                    \r\n                      Blog\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      Coursework\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      LinkedIn\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      GitHub\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      Email\r\n                    \r\n                  \r\n                \r\n                              \r\n          \r\n\r\n          \r\n            \r\n              \r\n                                \r\n                  \r\n                    Blog\r\n                  \r\n                \r\n                                \r\n                  \r\n                    Coursework\r\n                  \r\n                \r\n                                \r\n                  \r\n                    LinkedIn\r\n                  \r\n                \r\n                                \r\n                  \r\n                    GitHub\r\n                  \r\n                \r\n                                \r\n                  \r\n                    Email\r\n                  \r\n                \r\n                              \r\n            \r\n          \r\n        \r\n      \r\n    \r\n\r\n    \r\n    \r\n    ",
-      "last_modified": "2022-01-30T20:54:21-05:00"
+      "last_modified": "2022-02-02T13:50:30-05:00"
     }
   ],
   "collections": ["posts/posts.json", "coursework/coursework.json"]
