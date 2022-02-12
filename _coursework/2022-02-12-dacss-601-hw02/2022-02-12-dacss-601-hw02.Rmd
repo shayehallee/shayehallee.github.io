@@ -1,0 +1,144 @@
+---
+title: "Shaye Hallee - DACSS 601 HW02"
+description: |
+  Reading in ACS 2019 disability population estimates.
+author: "Shaye Hallee"
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Introducing the data
+
+Here, we'll be looking at data about disabled populations in US counties. Specifically, we're using Subject Table S1810 from the 2019 1-year population estimates from the American Community Survey, an on-going demographics survey run by the U.S. Census Bureau. This table includes lots of data including county populations and disabled populations across different demographics.^[U.S. Census Bureau, 2019 American Community Survey 1-Year Estimates, [https://data.census.gov/cedsci/table?t=Disability&tid=ACSST1Y2019.S1810](https://data.census.gov/cedsci/table?t=Disability&tid=ACSST1Y2019.S1810)]
+
+We're going to answer the following questions:
+
+1. Which US county has the highest disabled population (by count)?
+2. Which county has the lowest disabled population (by count)?
+3. Which counties have a much higher than average disabled population (by percentage)?
+4. Which counties have a much lower than average disabled population (by percentage)?
+
+Table S1810 is incredibly large, so we'll pull out the following columns:
+
+| Variable           | Class             | Description                                                                  |
+|--------------------|-------------------|------------------------------------------------------------------------------|
+|  County            | `char` (text)     | county name                                                                  |
+|  State             | `char` (text)     | state name                                                                   |
+|  cty_ni_pop        | `dbl` (numerical) | total estimated 2019 county population of noninstitutionalized civilians     |
+|  cty_ni_dis_pop    | `dbl` (numerical) | estimated 2019 county population of disabled, noninstitutionalized civilians |
+|  cty_pct_disabled  | `dbl` (numerical) | disabled population as a percentage of the total county population           |
+
+"Noninstitutionalized civilians" means people who aren't in the armed forces and don't live in institutions like prisons, hospitals, or nursing homes.^[U.S. Census Bureau, American Community Survey and Puerto Rico Community Survey 2019 Code List,
+[https://www2.census.gov/programs-surveys/acs/tech_docs/code_lists/2019_ACS_Code_Lists.pdf](https://www2.census.gov/programs-surveys/acs/tech_docs/code_lists/2019_ACS_Code_Lists.pdf)] These other two groups usually rely on their respective institutions to meet their support and access needs, and they usually have higher disabled populations. Surveys like the ACS are mostly used to plan community resources, so they exclude these groups with the assumption that they won't be interacting with the communities around them.^[Brault, M. (2008). Disability Status and the Characteristics of People in Group Quarters: A Brief Analysis of Disability Prevalence Among the Civilian Noninstitutionalized and Total Populations in the American Community Survey. U.S. Census Bureau "Working Papers". [https://www.census.gov/library/working-papers/2008/demo/brault-01.html](https://www.census.gov/library/working-papers/2008/demo/brault-01.html)]
+
+I might have to find more thorough data if I plan to use demographics information in future projects.
+
+# Reading in the data
+
+Let's read the data in, free it from an unnecessary row, and put it all in a tibble.
+
+```{r, eval=TRUE, echo=TRUE}
+
+library(tidyverse)
+library(knitr)
+
+data <- read.csv("ACS_ST_1Y_2019_Disability_County/data_all.csv", encoding = "UTF-8")
+data <- data[c(2:nrow(data)),]
+data <- as_tibble(data)
+```
+
+Let's make sure it's a tibble of about the expected size.
+
+```{r, eval=TRUE, echo=TRUE}
+class(data)
+dim(data)
+
+```
+
+Done!
+
+# Cleaning up the data
+
+Right now, our tibble has a lot of very cool data that we won't be using, and the column names aren't human-friendly.
+
+Let's extract the right columns and give them (marginally) friendlier names. We'll use `dplyr::select` for that.
+
+```{r, eval=TRUE, echo=TRUE}
+data <- select(data,
+               NAME,
+               cty_ni_pop = S1810_C01_001E,
+               cty_ni_dis_pop = S1810_C02_001E,
+               cty_pct_disabled = S1810_C03_001E)
+```
+
+For kicks, let's separate the "NAME" column into "County" and "State."
+
+```{r, eval=TRUE, echo=TRUE}
+
+data <- separate(data, NAME, c("County", "State"), sep = ", ")
+```
+
+Let's turn the appropriate columns into numerical values. This is kind of sloppy, but it's just three columns in a script we probably won't use again. Famous last words, I know.
+
+```{r, eval=TRUE, echo=TRUE}
+data$cty_ni_pop <- as.numeric(data$cty_ni_pop)
+data$cty_ni_dis_pop <- as.numeric(data$cty_ni_dis_pop)
+data$cty_pct_disabled <- as.numeric(data$cty_pct_disabled)
+```
+
+Here's what the data looks like now:
+
+```{r, eval=TRUE, echo=TRUE}
+kable(head(data))
+kable(tail(data))
+```
+
+# Finding cool things in the data
+
+First, let's find the average disabled population in a US county, as a percentage of the total population.
+
+```{r, eval=TRUE, echo=TRUE}
+mean_pct_disabled <- mean(data$cty_pct_disabled)
+mean_pct_disabled
+```
+
+We'll use `dplyr::filter` to answer the questions from the intro.
+
+1. Which US county has the highest disabled population (by count)?
+
+```{r, eval=TRUE, echo=TRUE}
+highest_disabled_pop <- filter(data, (data$cty_ni_dis_pop == max(data$cty_ni_dis_pop)))
+kable(highest_disabled_pop)
+```
+
+2. Which county has the lowest disabled population (by count)?
+
+```{r, eval=TRUE, echo=TRUE}
+lowest_disabled_pop <- filter(data, (data$cty_ni_dis_pop == min(data$cty_ni_dis_pop)))
+kable(lowest_disabled_pop)
+```
+
+3. Which counties have a much higher than average disabled population (by percentage)?
+Let's arbitrarily use 1.75 times the mean as our threshold.
+
+```{r, eval=TRUE, echo=TRUE}
+hi_disability <- filter(data, data$cty_pct_disabled >= 1.75*mean_pct_disabled)
+kable(hi_disability)
+```
+
+4. Which counties have a much lower than average disabled population (by percentage)?
+Let's (also arbitrarily) use 0.5 times the mean as our threshold.
+
+```{r, eval=TRUE, echo=TRUE}
+lo_disability <- filter(data, data$cty_pct_disabled <= 0.5*mean_pct_disabled)
+kable(lo_disability)
+```
+
+# What's next?
+
+None of this tells us anything particularly interesting without looking at some complementary data. I'd be interested in looking at other data from Subject Table S1810 to see if there are correlations with race, overall population size, age, or type of disability. Other data sets are out there with data on poverty, food access, urbanization, and lots of other information, and it'll be very cool to check out some of that data.
+
