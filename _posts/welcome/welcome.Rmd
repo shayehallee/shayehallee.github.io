@@ -12,6 +12,8 @@ output:
 
 This is a placeholder page. Congrats!
 
+And this is a test to see if I can push to git.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
